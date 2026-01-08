@@ -31,7 +31,7 @@ const CallToAction = () => {
               size="lg"
               className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
             >
-              Volunteer With Us
+              Volunteer or Donate
             </Button>
           </div>
 
