@@ -6,19 +6,19 @@ const services = [
     icon: Shield,
     title: "Mobile Food Pantry",
     description: "Dedicated to our veterans",
-    features: ["Regular Food Distribution", "Emergency meal assistance", "Cooking Classes"],
+    features: ["Regular Food Distribution", "Emergency Meal Assistance", "Cooking Classes"],
   },
   {
     icon: GraduationCap,
     title: "Free GED Classes",
     description: "Custom, comprehensive GED preparation program. All literacy levels welcome.",
-    features: ["Flexible scheduling", "Judgement-free", "Study materials provided"],
+    features: ["Flexible Scheduling", "Judgement-Free", "Study Materials Provided"],
   },
   {
     icon: BriefcaseBusiness,
     title: "Career Development",
-    description: "Dedicated support for those who served. We connect veterans with resources, benefits assistance, and community support.",
-    features: ["Benefits navigation", "Peer support groups", "Resource connections"],
+    description: "Guidance, skills, and advocacy to put you in position for success.",
+    features: ["All Are Welcome", "Personalized Career Counseling", "Placement Assistance"],
   },
 ];
 
@@ -28,19 +28,17 @@ const Services = () => {
       <div className="container px-4">
         <div className="text-center mb-16">
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">What We Offer</span>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-4">
-            Our Core Services
-          </h2>
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-4">Our Core Services</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Every service we provide is completely free, ensuring everyone has access 
-            to the support they need to advance.
+            Every service we provide is completely free, ensuring everyone has access to the support they need to
+            advance.
           </p>
         </div>
-        
+
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {services.map((service, index) => (
-            <Card 
-              key={service.title} 
+            <Card
+              key={service.title}
               className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-md bg-card"
               style={{ animationDelay: `${index * 100}ms` }}
             >
@@ -49,9 +47,7 @@ const Services = () => {
                   <service.icon className="w-7 h-7 text-primary group-hover:text-primary-foreground transition-colors" />
                 </div>
                 <CardTitle className="text-xl font-bold">{service.title}</CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  {service.description}
-                </CardDescription>
+                <CardDescription className="text-muted-foreground">{service.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
