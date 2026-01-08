@@ -15,20 +15,18 @@ const About = () => {
           <div>
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">About Us</span>
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-6">
-              Building a Stronger Community Together
+              Uplifting Communities and the Veterans who Served Them
             </h2>
             <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
-              Community Advancement Collective was founded on the belief that everyone 
-              deserves access to essential services, regardless of their circumstances. 
-              We are a dedicated group of volunteers and professionals committed to 
-              uplifting our neighbors.
+              Community Advancement Collective was founded on the belief that everyone deserves a brighter future and
+              access to essential services, regardless of their circumstances. We are a dedicated group of volunteers
+              and professionals committed to uplifting our neighbors and building strong communities person by person.
             </p>
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-              Our mission is simple: remove barriers and create pathways to success. 
-              Whether it's putting food on the table, helping someone earn their GED, 
-              or supporting our veterans, we're here to make a difference.
+              Our mission is simple: remove barriers and create pathways to success. Whether it's a GED, a job,
+              advocacy, or just some food, we're here to provide whatever unlocks the door to the next level in life.
             </p>
-            
+
             <div className="grid grid-cols-2 gap-6">
               {stats.map((stat) => (
                 <div key={stat.label} className="flex items-center gap-4">
@@ -43,7 +41,7 @@ const About = () => {
               ))}
             </div>
           </div>
-          
+
           <div className="relative">
             <div className="aspect-square rounded-3xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/10 p-8 flex items-center justify-center">
               <div className="text-center">
@@ -52,8 +50,7 @@ const About = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-2">Our Promise</h3>
                 <p className="text-muted-foreground">
-                  Every person who walks through our doors is treated with dignity, 
-                  respect, and compassion.
+                  Every person we serve is treated with dignity, respect, and compassion.
                 </p>
               </div>
             </div>
