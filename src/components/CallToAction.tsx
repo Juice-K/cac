@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone, Mail } from "lucide-react";
 
@@ -19,10 +20,12 @@ const CallToAction = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button variant="secondary" size="lg" className="group">
-              Request Services
-              <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Button>
+            <Link to="/get-help">
+              <Button variant="secondary" size="lg" className="group">
+                Request Services
+                <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
             <Button
               variant="outline"
               size="lg"
@@ -34,7 +37,7 @@ const CallToAction = () => {
 
           <div className="flex flex-col sm:flex-row gap-8 justify-center items-center text-primary-foreground/90">
             <a
-              href="tel:+1234567890"
+              href="tel:+14078931893"
               className="flex items-center gap-2 hover:text-primary-foreground transition-colors"
             >
               <Phone className="w-5 h-5" />
