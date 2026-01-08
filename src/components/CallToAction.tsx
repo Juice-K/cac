@@ -26,13 +26,15 @@ const CallToAction = () => {
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
-            <Button
-              variant="outline"
-              size="lg"
-              className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
-            >
-              Volunteer or Donate
-            </Button>
+            <Link to="/support">
+              <Button
+                variant="outline"
+                size="lg"
+                className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+              >
+                Volunteer or Donate
+              </Button>
+            </Link>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-8 justify-center items-center text-primary-foreground/90">
