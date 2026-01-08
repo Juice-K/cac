@@ -32,9 +32,11 @@ const Hero = () => {
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
-            <Button variant="outline" size="lg">
-              Support Our Mission
-            </Button>
+            <Link to="/support">
+              <Button variant="outline" size="lg">
+                Support Our Mission
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
