@@ -21,8 +21,7 @@ const Header = () => {
               <span className="text-primary-foreground font-bold text-lg">CA</span>
             </div>
             <div className="hidden sm:block">
-              <div className="font-bold text-foreground leading-tight">Community Advancement</div>
-              <div className="text-xs text-muted-foreground">Collective</div>
+              <div className="font-bold text-foreground leading-tight">Community Advancement Collective</div>
             </div>
           </a>
 
