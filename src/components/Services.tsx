@@ -1,22 +1,22 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { shield, GraduationCap, briefcase-business } from "lucide-react";
+import { Shield, GraduationCap, BriefcaseBusiness } from "lucide-react";
 
 const services = [
   {
-    icon: shield,
+    icon: Shield,
     title: "Mobile Food Pantry",
-    description: "Dedicated to our veterans"
+    description: "Dedicated to our veterans",
     features: ["Regular Food Distribution", "Emergency meal assistance", "Cooking Classes"],
   },
   {
     icon: GraduationCap,
-    title: "Free GED Classes"
+    title: "Free GED Classes",
     description: "Custom, comprehensive GED preparation program. All literacy levels welcome.",
     features: ["Flexible scheduling", "Judgement-free", "Study materials provided"],
   },
   {
-    icon: briefcase-business,
-    title: "Career Development"
+    icon: BriefcaseBusiness,
+    title: "Career Development",
     description: "Dedicated support for those who served. We connect veterans with resources, benefits assistance, and community support.",
     features: ["Benefits navigation", "Peer support groups", "Resource connections"],
   },
