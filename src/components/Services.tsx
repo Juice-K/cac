@@ -6,19 +6,20 @@ const services = [
     icon: Shield,
     title: "Mobile Food Pantry",
     description: "Dedicated to our veterans",
-    features: ["Regular Food Distribution", "Emergency Meal Assistance", "Cooking Classes"],
+    features: ["Regular Food Distribution", "Emergency meal assistance", "Cooking Classes"],
   },
   {
     icon: GraduationCap,
     title: "Free GED Classes",
     description: "Custom, comprehensive GED preparation program. All literacy levels welcome.",
-    features: ["Flexible Scheduling", "Judgement-Free", "Study Materials Provided"],
+    features: ["Flexible scheduling", "Judgement-free", "Study materials provided"],
   },
   {
     icon: BriefcaseBusiness,
     title: "Career Development",
-    description: "Guidance, skills, and advocacy to put you in position for success.",
-    features: ["All Are Welcome", "Personalized Career Counseling", "Placement Assistance"],
+    description:
+      "Dedicated support for those who served. We connect veterans with resources, benefits assistance, and community support.",
+    features: ["Benefits navigation", "Peer support groups", "Resource connections"],
   },
 ];
 
@@ -31,7 +32,7 @@ const Services = () => {
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-4">Our Core Services</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Every service we provide is completely free, ensuring everyone has access to the support they need to
-            advance.
+            advance in life.
           </p>
         </div>
 
