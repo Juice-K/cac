@@ -15,10 +15,7 @@ const Footer = () => {
                 <div className="font-bold text-background leading-tight">Community Advancement Collective</div>
               </div>
             </div>
-            <p className="text-background/70 mb-6 max-w-sm">
-              Empowering our community through free essential services. 
-              Together, we can build a stronger, more supportive neighborhood.
-            </p>
+            <p className="text-background/70 mb-6 max-w-sm">Empowering our community.</p>
             <div className="flex items-center gap-2 text-accent">
               <Heart className="w-4 h-4" />
               <span className="text-sm">A 501(c)(3) Non-Profit Organization</span>
@@ -31,12 +28,16 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-background/70">
                 <MapPin className="w-5 h-5 mt-0.5 text-primary" />
-                <span>123 Community Way<br />Your City, ST 12345</span>
+                <span>
+                  3574 Pelock Dr
+                  <br />
+                  Apopka, FL 32703
+                </span>
               </li>
               <li className="flex items-center gap-3 text-background/70">
                 <Phone className="w-5 h-5 text-primary" />
                 <a href="tel:+1234567890" className="hover:text-background transition-colors">
-                  (123) 456-7890
+                  (407) 893-1893
                 </a>
               </li>
               <li className="flex items-center gap-3 text-background/70">

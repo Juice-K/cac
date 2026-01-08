@@ -1,22 +1,22 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { UtensilsCrossed, GraduationCap, Shield } from "lucide-react";
+import { shield, GraduationCap, briefcase-business } from "lucide-react";
 
 const services = [
   {
-    icon: UtensilsCrossed,
-    title: "Free Food Services",
-    description: "Access nutritious meals and groceries at no cost. Our food pantry and meal programs ensure no one in our community goes hungry.",
-    features: ["Weekly food distribution", "Emergency meal assistance", "Nutritional guidance"],
+    icon: shield,
+    title: "Mobile Food Pantry",
+    description: "Dedicated to our veterans"
+    features: ["Regular Food Distribution", "Emergency meal assistance", "Cooking Classes"],
   },
   {
     icon: GraduationCap,
-    title: "Free GED Classes",
-    description: "Achieve your educational goals with our comprehensive GED preparation program. Expert instructors guide you every step of the way.",
-    features: ["Flexible scheduling", "One-on-one tutoring", "Study materials provided"],
+    title: "Free GED Classes"
+    description: "Custom, comprehensive GED preparation program. All literacy levels welcome.",
+    features: ["Flexible scheduling", "Judgement-free", "Study materials provided"],
   },
   {
-    icon: Shield,
-    title: "Veteran Services",
+    icon: briefcase-business,
+    title: "Career Development"
     description: "Dedicated support for those who served. We connect veterans with resources, benefits assistance, and community support.",
     features: ["Benefits navigation", "Peer support groups", "Resource connections"],
   },
@@ -33,7 +33,7 @@ const Services = () => {
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Every service we provide is completely free, ensuring everyone has access 
-            to the support they need to thrive.
+            to the support they need to advance.
           </p>
         </div>
         
