@@ -1,10 +1,10 @@
-import { Heart, Calendar, MapPin, Shield } from "lucide-react";
+import { Heart, Smile, Handshake, Shield } from "lucide-react";
 
 const stats = [
   { icon: Heart, value: "100% Free Services" },
-  { icon: Calendar, value: "Weekly", label: "Programs Available" },
-  { icon: MapPin, value: "Local", label: "Community Focus" },
-  { icon: Shield, value: "Veteran", label: "Friendly" },
+  { icon: Smile, value: "Felon Friendly" },
+  { icon: Handshake, value: "Community Focused" },
+  { icon: Shield, value: "Veteran Founded" },
 ];
 
 const About = () => {
