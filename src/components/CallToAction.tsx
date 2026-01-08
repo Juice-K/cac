@@ -35,9 +35,9 @@ const CallToAction = () => {
               <Phone className="w-5 h-5" />
               <span>(123) 456-7890</span>
             </a>
-            <a href="mailto:info@cacollective.org" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
+            <a href="mailto:info@cacfla.org" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
               <Mail className="w-5 h-5" />
-              <span>info@cacollective.org</span>
+              <span>info@cacfla.org</span>
             </a>
           </div>
         </div>
