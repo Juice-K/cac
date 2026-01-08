@@ -18,7 +18,7 @@ const Header = () => {
           {/* Logo */}
           <a href="/" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">CA</span>
+              <span className="text-primary-foreground font-bold text-lg">CAC</span>
             </div>
             <div className="hidden sm:block">
               <div className="font-bold text-foreground leading-tight">Community Advancement Collective</div>
