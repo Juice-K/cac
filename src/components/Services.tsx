@@ -17,9 +17,8 @@ const services = [
   {
     icon: BriefcaseBusiness,
     title: "Career Development",
-    description:
-      "Dedicated support for those who served. We connect veterans with resources, benefits assistance, and community support.",
-    features: ["Benefits navigation", "Peer support groups", "Resource connections"],
+    description: "Skills, guidance, and advocacy to put you in position for success.",
+    features: ["All Are Welcome", "Strategic Career Planning", "Placement Assistance"],
   },
 ];
 
