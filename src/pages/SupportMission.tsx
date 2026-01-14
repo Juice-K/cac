@@ -7,10 +7,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, ArrowRight, Heart, HandHeart, DollarSign, Check, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Heart, HandHeart, DollarSign, Check, Loader2, Home } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { submitVolunteerApplication, submitDonation } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { volunteerSchema, donationSchema, validateForm } from "@/lib/validations";
@@ -620,6 +621,29 @@ const SupportMission = () => {
       <main className="pt-24 pb-16">
         <div className="container px-4">
           <div className="max-w-3xl mx-auto">
+            {/* Breadcrumb */}
+            <Breadcrumb className="mb-6">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link to="/" className="flex items-center gap-1">
+                      <Home className="w-4 h-4" />
+                      Home
+                    </Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>
+                    {supportType === "volunteer" 
+                      ? "Volunteer" 
+                      : supportType === "donate" 
+                        ? "Donate" 
+                        : "Support Our Mission"}
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
             {step > 1 && renderStepIndicator()}
             {renderCurrentStep()}
           </div>
