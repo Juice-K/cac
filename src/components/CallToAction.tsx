@@ -39,11 +39,11 @@ const CallToAction = () => {
 
           <div className="flex flex-col sm:flex-row gap-8 justify-center items-center text-primary-foreground/90">
             <a
-              href="tel:+14078931893"
+              href="tel:+14078632131"
               className="flex items-center gap-2 hover:text-primary-foreground transition-colors"
             >
               <Phone className="w-5 h-5" />
-              <span>(407) 893-1893</span>
+              <span>(407) 863-2131</span>
             </a>
             <a
               href="mailto:info@cacfla.org"
