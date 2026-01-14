@@ -6,10 +6,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, ArrowRight, GraduationCap, Briefcase, UtensilsCrossed, Shield, CheckCircle, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, GraduationCap, Briefcase, UtensilsCrossed, Shield, CheckCircle, Loader2, Home } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { submitHelpRequest } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { contactInfoSchema, gedFieldsSchema, careerFieldsSchema, foodFieldsSchema, validateForm } from "@/lib/validations";
@@ -298,6 +299,32 @@ const GetHelp = () => {
       <Header />
       <main className="pt-24 pb-16">
         <div className="container px-4 max-w-4xl mx-auto">
+          {/* Breadcrumb */}
+          <Breadcrumb className="mb-6">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link to="/" className="flex items-center gap-1">
+                    <Home className="w-4 h-4" />
+                    Home
+                  </Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>
+                  {selectedService 
+                    ? selectedService === "ged" 
+                      ? "GED Preparation" 
+                      : selectedService === "career" 
+                        ? "Career Development" 
+                        : "Food Assistance"
+                    : "Get Help"}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+
           {/* Progress indicator */}
           <div className="flex items-center justify-center mb-12">
             <div className="flex items-center gap-4">
