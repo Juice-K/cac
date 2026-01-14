@@ -11,6 +11,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { submitHelpRequest } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
+import { contactInfoSchema, gedFieldsSchema, careerFieldsSchema, foodFieldsSchema, validateForm } from "@/lib/validations";
 
 type ServiceType = "ged" | "career" | "food" | null;
 
@@ -85,10 +86,19 @@ const GetHelp = () => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const { toast } = useToast();
 
   const updateField = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
   const handleServiceSelect = (service: ServiceType) => {
@@ -96,9 +106,95 @@ const GetHelp = () => {
     setStep(2);
   };
 
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
+  const validateStep2 = () => {
+    const result = validateForm(contactInfoSchema, {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address,
+      city: formData.city,
+      state: formData.state,
+      zip: formData.zip,
+    });
+
+    if (result.success === false) {
+      setErrors(result.errors);
+      toast({
+        title: "Please fix the errors",
+        description: "Some fields need your attention.",
+        variant: "destructive",
+      });
+      return false;
+    }
     
+    setErrors({});
+    return true;
+  };
+
+  const validateStep3 = () => {
+    let schema;
+    let data;
+
+    if (selectedService === "ged") {
+      schema = gedFieldsSchema;
+      data = {
+        currentEducation: formData.currentEducation,
+        desiredGradDate: formData.desiredGradDate,
+        strongestSubject: formData.strongestSubject,
+        weakestSubject: formData.weakestSubject,
+        studyAvailability: formData.studyAvailability,
+        gedGoals: formData.gedGoals,
+      };
+    } else if (selectedService === "career") {
+      schema = careerFieldsSchema;
+      data = {
+        desiredJob: formData.desiredJob,
+        shortTermGoals: formData.shortTermGoals,
+        midTermGoals: formData.midTermGoals,
+        longTermGoals: formData.longTermGoals,
+        currentQualifications: formData.currentQualifications,
+        perceivedNeeds: formData.perceivedNeeds,
+      };
+    } else if (selectedService === "food") {
+      schema = foodFieldsSchema;
+      data = {
+        veteranBranch: formData.veteranBranch,
+        veteranStatus: formData.veteranStatus,
+        householdSize: formData.householdSize,
+        dietaryRestrictions: formData.dietaryRestrictions,
+        foodNeeds: formData.foodNeeds,
+        preferredPickupLocation: formData.preferredPickupLocation,
+      };
+    } else {
+      return true;
+    }
+
+    const result = validateForm(schema, data);
+
+    if (result.success === false) {
+      setErrors(result.errors);
+      toast({
+        title: "Please fix the errors",
+        description: "Some required fields are missing.",
+        variant: "destructive",
+      });
+      return false;
+    }
+    
+    setErrors({});
+    return true;
+  };
+
+  const handleContinueToStep3 = () => {
+    if (validateStep2()) {
+      setStep(3);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!validateStep3()) return;
+    setIsSubmitting(true);
     // Build service-specific details based on selected service
     let serviceDetails: Record<string, string> = {};
     
@@ -311,8 +407,11 @@ const GetHelp = () => {
                         value={formData.firstName}
                         onChange={(e) => updateField("firstName", e.target.value)}
                         placeholder="John"
-                        required
+                        className={errors.firstName ? "border-destructive" : ""}
                       />
+                      {errors.firstName && (
+                        <p className="text-sm text-destructive">{errors.firstName}</p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="lastName">Last Name *</Label>
@@ -321,8 +420,11 @@ const GetHelp = () => {
                         value={formData.lastName}
                         onChange={(e) => updateField("lastName", e.target.value)}
                         placeholder="Doe"
-                        required
+                        className={errors.lastName ? "border-destructive" : ""}
                       />
+                      {errors.lastName && (
+                        <p className="text-sm text-destructive">{errors.lastName}</p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Email Address *</Label>
@@ -332,8 +434,11 @@ const GetHelp = () => {
                         value={formData.email}
                         onChange={(e) => updateField("email", e.target.value)}
                         placeholder="john@example.com"
-                        required
+                        className={errors.email ? "border-destructive" : ""}
                       />
+                      {errors.email && (
+                        <p className="text-sm text-destructive">{errors.email}</p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="phone">Phone Number *</Label>
@@ -343,8 +448,11 @@ const GetHelp = () => {
                         value={formData.phone}
                         onChange={(e) => updateField("phone", e.target.value)}
                         placeholder="(555) 123-4567"
-                        required
+                        className={errors.phone ? "border-destructive" : ""}
                       />
+                      {errors.phone && (
+                        <p className="text-sm text-destructive">{errors.phone}</p>
+                      )}
                     </div>
                     <div className="space-y-2 md:col-span-2">
                       <Label htmlFor="address">Street Address</Label>
@@ -393,10 +501,7 @@ const GetHelp = () => {
                   <ArrowLeft className="mr-2 w-4 h-4" />
                   Back
                 </Button>
-                <Button
-                  onClick={() => setStep(3)}
-                  disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.phone}
-                >
+                <Button onClick={handleContinueToStep3}>
                   Continue
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
