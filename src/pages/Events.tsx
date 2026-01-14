@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { Calendar, Bell, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -7,6 +8,10 @@ import { Link } from "react-router-dom";
 const Events = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO 
+        title="Events" 
+        description="Stay updated on upcoming community events, GED classes, career workshops, and food assistance programs in Orlando, FL."
+      />
       <Header />
       
       <main className="flex-1 pt-20">
