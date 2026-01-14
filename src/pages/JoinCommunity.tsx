@@ -9,6 +9,7 @@ import { ArrowLeft, Users, Mail, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { mailingListSchema, validateForm, type MailingListInfo } from "@/lib/validations";
 import { submitMailingListSubscription } from "@/lib/api";
 
@@ -96,6 +97,10 @@ const JoinCommunity = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Join the Community" 
+        description="Stay connected with Community Advancement Collective. Sign up to receive updates about events, programs, and volunteer opportunities in Orlando."
+      />
       <Header />
       
       <main className="pt-20 md:pt-24 pb-16">

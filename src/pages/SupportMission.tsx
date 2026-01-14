@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, ArrowRight, Heart, HandHeart, DollarSign, Check, Loader2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { submitVolunteerApplication, submitDonation } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { volunteerSchema, donationSchema, validateForm } from "@/lib/validations";
@@ -611,6 +612,10 @@ const SupportMission = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Volunteer & Donate" 
+        description="Support the Community Advancement Collective through volunteering or donations. Help us make a difference in Orlando communities."
+      />
       <Header />
       <main className="pt-24 pb-16">
         <div className="container px-4">

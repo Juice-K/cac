@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowLeft, ArrowRight, GraduationCap, Briefcase, UtensilsCrossed, Shield, CheckCircle, Loader2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { submitHelpRequest } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { contactInfoSchema, gedFieldsSchema, careerFieldsSchema, foodFieldsSchema, validateForm } from "@/lib/validations";
@@ -290,6 +291,10 @@ const GetHelp = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Get Help" 
+        description="Request assistance with GED preparation, career development, or food assistance for veterans. Community Advancement Collective is here to help Orlando residents."
+      />
       <Header />
       <main className="pt-24 pb-16">
         <div className="container px-4 max-w-4xl mx-auto">
