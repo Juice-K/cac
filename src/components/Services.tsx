@@ -42,35 +42,30 @@ const Services = () => {
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {services.map((service, index) => (
-            <Card
-              key={service.title}
-              className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-md bg-card flex flex-col"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <CardHeader className="pb-4">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
-                  <service.icon className="w-7 h-7 text-primary group-hover:text-primary-foreground transition-colors" />
-                </div>
-                <CardTitle className="text-xl font-bold">{service.title}</CardTitle>
-                <CardDescription className="text-muted-foreground">{service.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-1 flex flex-col">
-                <ul className="space-y-2 flex-1">
-                  {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-foreground/80">
-                      <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Link to="/get-help" className="mt-6">
-                  <Button variant="ghost" className="w-full group/btn">
-                    Learn More
-                    <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+            <Link to="/get-help" key={service.title} className="block">
+              <Card
+                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-md bg-card flex flex-col h-full cursor-pointer"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <CardHeader className="pb-4">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                    <service.icon className="w-7 h-7 text-primary group-hover:text-primary-foreground transition-colors" />
+                  </div>
+                  <CardTitle className="text-xl font-bold">{service.title}</CardTitle>
+                  <CardDescription className="text-muted-foreground">{service.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col">
+                  <ul className="space-y-2 flex-1">
+                    {service.features.map((feature) => (
+                      <li key={feature} className="flex items-center gap-2 text-sm text-foreground/80">
+                        <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
 

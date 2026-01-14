@@ -21,14 +21,11 @@ const About = () => {
             </h2>
             <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
               Community Advancement Collective was founded on the belief that everyone deserves a brighter future and
-              access to essential services, regardless of their circumstances. We are a dedicated group of{" "}
-              <Link to="/support" className="text-primary hover:underline">volunteers</Link>{" "}
+              access to essential services, regardless of their circumstances. We are a dedicated group of volunteers
               and professionals committed to uplifting our neighbors and building strong communities person by person.
             </p>
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-              Our mission is simple: remove barriers and create pathways to success. Whether it's a{" "}
-              <Link to="/get-help" className="text-primary hover:underline">GED</Link>, a{" "}
-              <Link to="/get-help" className="text-primary hover:underline">job</Link>,
+              Our mission is simple: remove barriers and create pathways to success. Whether it's a GED, a job,
               advocacy, or just some food, we're here to provide whatever unlocks the door to the next level in life.
             </p>
 
