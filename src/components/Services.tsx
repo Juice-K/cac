@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Shield, GraduationCap, BriefcaseBusiness } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Shield, GraduationCap, BriefcaseBusiness, ArrowRight } from "lucide-react";
 
 const services = [
   {
@@ -7,18 +9,21 @@ const services = [
     title: "Mobile Food Pantry",
     description: "Dedicated to our veterans",
     features: ["Regular Food Distribution", "Emergency meal assistance", "Cooking Classes"],
+    serviceType: "food",
   },
   {
     icon: GraduationCap,
     title: "Free GED Classes",
     description: "Custom, comprehensive GED preparation program. All literacy levels welcome.",
     features: ["Flexible scheduling", "Judgement-free", "Study materials provided"],
+    serviceType: "ged",
   },
   {
     icon: BriefcaseBusiness,
     title: "Career Development",
     description: "Skills, guidance, and advocacy to put you in position for success.",
     features: ["All Are Welcome", "Strategic Career Planning", "Placement Assistance"],
+    serviceType: "career",
   },
 ];
 
@@ -39,7 +44,7 @@ const Services = () => {
           {services.map((service, index) => (
             <Card
               key={service.title}
-              className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-md bg-card"
+              className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-md bg-card flex flex-col"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardHeader className="pb-4">
@@ -49,8 +54,8 @@ const Services = () => {
                 <CardTitle className="text-xl font-bold">{service.title}</CardTitle>
                 <CardDescription className="text-muted-foreground">{service.description}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
+              <CardContent className="flex-1 flex flex-col">
+                <ul className="space-y-2 flex-1">
                   {service.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-2 text-sm text-foreground/80">
                       <div className="w-1.5 h-1.5 rounded-full bg-accent" />
@@ -58,9 +63,26 @@ const Services = () => {
                     </li>
                   ))}
                 </ul>
+                <Link to="/get-help" className="mt-6">
+                  <Button variant="ghost" className="w-full group/btn">
+                    Learn More
+                    <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* CTA to volunteer */}
+        <div className="text-center mt-12">
+          <p className="text-muted-foreground mb-4">Want to help provide these services?</p>
+          <Link to="/support">
+            <Button variant="outline" size="lg">
+              Become a Volunteer
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
