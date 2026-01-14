@@ -9,24 +9,14 @@ import { ArrowLeft, Users, Mail, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { z } from "zod";
-
-const communitySchema = z.object({
-  firstName: z.string().min(1, "First name is required").max(50, "First name must be less than 50 characters"),
-  lastName: z.string().min(1, "Last name is required").max(50, "Last name must be less than 50 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().regex(/^[\d\s\-\(\)\+]+$/, "Please enter a valid phone number").min(10, "Phone number must be at least 10 digits"),
-  wantsNotifications: z.boolean(),
-  contactPreference: z.enum(["email", "text", "both"]),
-});
-
-type CommunityFormData = z.infer<typeof communitySchema>;
+import { mailingListSchema, validateForm, type MailingListInfo } from "@/lib/validations";
+import { submitMailingListSubscription } from "@/lib/api";
 
 const JoinCommunity = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [formData, setFormData] = useState<CommunityFormData>({
+  const [formData, setFormData] = useState<MailingListInfo>({
     firstName: "",
     lastName: "",
     email: "",
@@ -35,7 +25,7 @@ const JoinCommunity = () => {
     contactPreference: "email",
   });
 
-  const handleInputChange = (field: keyof CommunityFormData, value: string | boolean) => {
+  const handleInputChange = (field: keyof MailingListInfo, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: "" }));
@@ -46,37 +36,62 @@ const JoinCommunity = () => {
     e.preventDefault();
     setErrors({});
 
-    const result = communitySchema.safeParse(formData);
-    if (!result.success) {
+    const parseResult = mailingListSchema.safeParse(formData);
+    if (!parseResult.success) {
       const newErrors: Record<string, string> = {};
-      result.error.errors.forEach((err) => {
-        if (err.path[0]) {
-          newErrors[err.path[0] as string] = err.message;
+      parseResult.error.errors.forEach((err) => {
+        const path = err.path.join(".");
+        if (!newErrors[path]) {
+          newErrors[path] = err.message;
         }
       });
       setErrors(newErrors);
       return;
     }
 
+    const validatedData = parseResult.data;
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      const response = await submitMailingListSubscription({
+        first_name: validatedData.firstName,
+        last_name: validatedData.lastName,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        wants_notifications: validatedData.wantsNotifications,
+        contact_preference: validatedData.contactPreference,
+      });
 
-    toast({
-      title: "Welcome to the Community!",
-      description: "Thank you for joining. We'll keep you updated on CAC news and events.",
-    });
+      if (response.success) {
+        toast({
+          title: "Welcome to the Community!",
+          description: "Thank you for joining. We'll keep you updated on CAC news and events.",
+        });
 
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      wantsNotifications: true,
-      contactPreference: "email",
-    });
-    setIsSubmitting(false);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          wantsNotifications: true,
+          contactPreference: "email",
+        });
+      } else {
+        toast({
+          title: "Submission Failed",
+          description: response.error || "There was an error. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

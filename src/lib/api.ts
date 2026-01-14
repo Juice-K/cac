@@ -17,6 +17,7 @@ interface ApiResponse {
   request_id?: number;
   volunteer_id?: number;
   donation_id?: number;
+  subscriber_id?: number;
 }
 
 /**
@@ -123,7 +124,6 @@ export async function submitDonation(data: {
     return await response.json();
   } catch (error) {
     console.error('Donation submission error:', error);
-    // In development, return a mock success response
     if (!import.meta.env.PROD) {
       console.log('Development mode: Mocking successful submission');
       return { 
@@ -135,6 +135,44 @@ export async function submitDonation(data: {
     return { 
       success: false, 
       error: error instanceof Error ? error.message : 'Failed to record donation' 
+    };
+  }
+}
+
+/**
+ * Submit a mailing list subscription to the cacmailinglist database
+ */
+export async function submitMailingListSubscription(data: {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  wants_notifications: boolean;
+  contact_preference: 'email' | 'text' | 'both';
+}): Promise<ApiResponse> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/mailing-list.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Mailing list subscription error:', error);
+    if (!import.meta.env.PROD) {
+      console.log('Development mode: Mocking successful submission');
+      return { 
+        success: true, 
+        message: 'Subscription saved (development mode)',
+        subscriber_id: Date.now() 
+      };
+    }
+    return { 
+      success: false, 
+      error: error instanceof Error ? error.message : 'Failed to save subscription' 
     };
   }
 }
