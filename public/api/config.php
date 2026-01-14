@@ -18,6 +18,12 @@ define('DB_SUPPORT_NAME', 'cacvols');
 define('DB_SUPPORT_USER', 'YOUR_USERNAME_HERE');  // Update this
 define('DB_SUPPORT_PASS', 'YOUR_PASSWORD_HERE');  // Update this
 
+// Mailing List Database (cacmailinglist)
+define('DB_MAILING_HOST', 'friendsql.cacfla.org');
+define('DB_MAILING_NAME', 'cacmailinglist');
+define('DB_MAILING_USER', 'YOUR_USERNAME_HERE');  // Update this
+define('DB_MAILING_PASS', 'YOUR_PASSWORD_HERE');  // Update this
+
 // CORS headers for API responses
 function setCorsHeaders() {
     header('Access-Control-Allow-Origin: *');
@@ -46,6 +52,15 @@ function getHelpDbConnection() {
 
 function getSupportDbConnection() {
     $conn = new mysqli(DB_SUPPORT_HOST, DB_SUPPORT_USER, DB_SUPPORT_PASS, DB_SUPPORT_NAME);
+    if ($conn->connect_error) {
+        throw new Exception('Database connection failed: ' . $conn->connect_error);
+    }
+    $conn->set_charset('utf8mb4');
+    return $conn;
+}
+
+function getMailingListDbConnection() {
+    $conn = new mysqli(DB_MAILING_HOST, DB_MAILING_USER, DB_MAILING_PASS, DB_MAILING_NAME);
     if ($conn->connect_error) {
         throw new Exception('Database connection failed: ' . $conn->connect_error);
     }

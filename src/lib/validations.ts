@@ -100,6 +100,35 @@ export const donationSchema = z.object({
   paymentMethod: z.string().min(1, "Please select a payment method"),
 });
 
+// Mailing list / community subscription schema
+export const mailingListSchema = z.object({
+  firstName: z
+    .string()
+    .trim()
+    .min(1, "First name is required")
+    .max(50, "First name must be less than 50 characters"),
+  lastName: z
+    .string()
+    .trim()
+    .min(1, "Last name is required")
+    .max(50, "Last name must be less than 50 characters"),
+  email: z
+    .string()
+    .trim()
+    .min(1, "Email is required")
+    .email("Please enter a valid email address")
+    .max(100, "Email must be less than 100 characters"),
+  phone: z
+    .string()
+    .trim()
+    .min(1, "Phone number is required")
+    .regex(phoneRegex, "Please enter a valid phone number (10-20 digits)"),
+  wantsNotifications: z.boolean(),
+  contactPreference: z.enum(["email", "text", "both"], {
+    required_error: "Please select a contact preference",
+  }),
+});
+
 // Validation helper function
 export function validateForm<T>(
   schema: z.ZodSchema<T>,
@@ -125,3 +154,4 @@ export function validateForm<T>(
 export type ContactInfo = z.infer<typeof contactInfoSchema>;
 export type VolunteerInfo = z.infer<typeof volunteerSchema>;
 export type DonationInfo = z.infer<typeof donationSchema>;
+export type MailingListInfo = z.infer<typeof mailingListSchema>;
