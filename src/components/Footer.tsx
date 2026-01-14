@@ -29,15 +29,15 @@ const Footer = () => {
               <li className="flex items-start gap-3 text-background/70">
                 <MapPin className="w-5 h-5 mt-0.5 text-primary" />
                 <span>
-                  3574 Pelock Dr
+                  1317 Edgewater Dr #3409
                   <br />
-                  Apopka, FL 32703
+                  Orlando, FL 32804
                 </span>
               </li>
               <li className="flex items-center gap-3 text-background/70">
                 <Phone className="w-5 h-5 text-primary" />
-                <a href="tel:+1234567890" className="hover:text-background transition-colors">
-                  (407) 893-1893
+                <a href="tel:+14078632131" className="hover:text-background transition-colors">
+                  (407) 863-2131
                 </a>
               </li>
               <li className="flex items-center gap-3 text-background/70">
