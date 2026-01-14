@@ -6,9 +6,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, ArrowRight, GraduationCap, Briefcase, UtensilsCrossed, Shield, CheckCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, GraduationCap, Briefcase, UtensilsCrossed, Shield, CheckCircle, Loader2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { submitHelpRequest } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 
 type ServiceType = "ged" | "career" | "food" | null;
 
@@ -82,6 +84,8 @@ const GetHelp = () => {
   const [selectedService, setSelectedService] = useState<ServiceType>(null);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const updateField = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -92,10 +96,73 @@ const GetHelp = () => {
     setStep(2);
   };
 
-  const handleSubmit = () => {
-    // Here you would typically send the data to your backend
-    console.log("Form submitted:", { service: selectedService, ...formData });
-    setSubmitted(true);
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    
+    // Build service-specific details based on selected service
+    let serviceDetails: Record<string, string> = {};
+    
+    if (selectedService === "ged") {
+      serviceDetails = {
+        currentEducation: formData.currentEducation,
+        desiredGradDate: formData.desiredGradDate,
+        strongestSubject: formData.strongestSubject,
+        weakestSubject: formData.weakestSubject,
+        studyAvailability: formData.studyAvailability,
+        gedGoals: formData.gedGoals,
+      };
+    } else if (selectedService === "career") {
+      serviceDetails = {
+        desiredJob: formData.desiredJob,
+        shortTermGoals: formData.shortTermGoals,
+        midTermGoals: formData.midTermGoals,
+        longTermGoals: formData.longTermGoals,
+        currentQualifications: formData.currentQualifications,
+        perceivedNeeds: formData.perceivedNeeds,
+      };
+    } else if (selectedService === "food") {
+      serviceDetails = {
+        veteranBranch: formData.veteranBranch,
+        veteranStatus: formData.veteranStatus,
+        householdSize: formData.householdSize,
+        dietaryRestrictions: formData.dietaryRestrictions,
+        foodNeeds: formData.foodNeeds,
+        preferredPickupLocation: formData.preferredPickupLocation,
+      };
+    }
+
+    try {
+      const result = await submitHelpRequest({
+        service_type: selectedService || '',
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zip: formData.zip,
+        service_details: serviceDetails,
+      });
+
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        toast({
+          title: "Submission Error",
+          description: result.error || "Failed to submit your request. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -648,9 +715,18 @@ const GetHelp = () => {
                   <ArrowLeft className="mr-2 w-4 h-4" />
                   Back
                 </Button>
-                <Button onClick={handleSubmit}>
-                  Submit Request
-                  <ArrowRight className="ml-2 w-4 h-4" />
+                <Button onClick={handleSubmit} disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      Submit Request
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </>
+                  )}
                 </Button>
               </div>
             </div>

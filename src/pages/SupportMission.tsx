@@ -7,9 +7,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, ArrowRight, Heart, HandHeart, DollarSign, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Heart, HandHeart, DollarSign, Check, Loader2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { submitVolunteerApplication, submitDonation } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 
 type SupportType = "volunteer" | "donate" | null;
 type VolunteerService = "food-pantry" | "ged-classes" | "career-development" | null;
@@ -18,6 +20,8 @@ const SupportMission = () => {
   const [step, setStep] = useState(1);
   const [supportType, setSupportType] = useState<SupportType>(null);
   const [volunteerService, setVolunteerService] = useState<VolunteerService>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
   const [volunteerInfo, setVolunteerInfo] = useState({
     name: "",
     email: "",
@@ -46,14 +50,71 @@ const SupportMission = () => {
     }));
   };
 
-  const handleVolunteerSubmit = () => {
-    console.log("Volunteer submission:", { volunteerService, volunteerInfo });
-    handleNext();
+  const handleVolunteerSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      const result = await submitVolunteerApplication({
+        name: volunteerInfo.name,
+        email: volunteerInfo.email,
+        phone: volunteerInfo.phone,
+        service_area: volunteerService || '',
+        availability: volunteerInfo.availability,
+        experience: volunteerInfo.experience,
+        message: volunteerInfo.message,
+      });
+
+      if (result.success) {
+        handleNext();
+      } else {
+        toast({
+          title: "Submission Error",
+          description: result.error || "Failed to submit your application. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleDonationSubmit = () => {
-    console.log("Donation submission:", donationInfo);
-    handleNext();
+  const handleDonationSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      const finalAmount = donationInfo.amount === "Custom" 
+        ? donationInfo.customAmount 
+        : donationInfo.amount;
+        
+      const result = await submitDonation({
+        name: donationInfo.name,
+        email: donationInfo.email,
+        amount: finalAmount,
+        payment_method: donationInfo.paymentMethod,
+      });
+
+      if (result.success) {
+        handleNext();
+      } else {
+        toast({
+          title: "Submission Error",
+          description: result.error || "Failed to record your donation. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const renderStepIndicator = () => {
@@ -301,10 +362,19 @@ const SupportMission = () => {
         </Button>
         <Button
           onClick={handleVolunteerSubmit}
-          disabled={!volunteerInfo.name || !volunteerInfo.email || volunteerInfo.availability.length === 0}
+          disabled={!volunteerInfo.name || !volunteerInfo.email || volunteerInfo.availability.length === 0 || isSubmitting}
         >
-          Submit Application
-          <Check className="ml-2 w-4 h-4" />
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+              Submitting...
+            </>
+          ) : (
+            <>
+              Submit Application
+              <Check className="ml-2 w-4 h-4" />
+            </>
+          )}
         </Button>
       </div>
     </div>
@@ -413,11 +483,21 @@ const SupportMission = () => {
           onClick={handleDonationSubmit}
           disabled={
             !donationInfo.paymentMethod ||
-            (!donationInfo.amount || (donationInfo.amount === "Custom" && !donationInfo.customAmount))
+            (!donationInfo.amount || (donationInfo.amount === "Custom" && !donationInfo.customAmount)) ||
+            isSubmitting
           }
         >
-          Continue to Payment
-          <ArrowRight className="ml-2 w-4 h-4" />
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+              Processing...
+            </>
+          ) : (
+            <>
+              Continue to Payment
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </>
+          )}
         </Button>
       </div>
     </div>
