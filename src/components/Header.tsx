@@ -11,6 +11,7 @@ const Header = () => {
     { href: "/events", label: "Events", isRoute: true },
     { href: "#about", label: "About" },
     { href: "#contact", label: "Contact" },
+    { href: "/join", label: "Join the Community", isRoute: true },
   ];
 
   return (

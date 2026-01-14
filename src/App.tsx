@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import GetHelp from "./pages/GetHelp";
 import SupportMission from "./pages/SupportMission";
 import Events from "./pages/Events";
+import JoinCommunity from "./pages/JoinCommunity";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/get-help" element={<GetHelp />} />
           <Route path="/support" element={<SupportMission />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/join" element={<JoinCommunity />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
