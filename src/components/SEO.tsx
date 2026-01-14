@@ -10,7 +10,7 @@ interface SEOProps {
 
 const defaultMeta = {
   title: "Community Advancement Collective",
-  description: "Empowering Orlando communities through GED preparation, career development, food assistance for veterans, and volunteer opportunities. Get help or join our mission today.",
+  description: "Empowering communities through GED preparation, career development, food assistance for veterans, and volunteer opportunities. Get help or join our mission today.",
   image: "/og-image.png",
   siteName: "Community Advancement Collective",
 };
@@ -56,7 +56,7 @@ const SEO = ({
           "@type": "NGO",
           "name": "Community Advancement Collective",
           "alternateName": "CAC",
-          "description": defaultMeta.description,
+          "description": "Empowering communities through GED preparation, career development, food assistance for veterans, and volunteer opportunities.",
           "url": "https://cacfla.org",
           "logo": "https://cacfla.org/og-image.png",
           "address": {
