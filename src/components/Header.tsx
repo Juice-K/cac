@@ -1,37 +1,67 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const navLinks = [
-    { href: "#services", label: "Services" },
-    { href: "/events", label: "Events", isRoute: true },
-    { href: "#about", label: "About" },
-    { href: "#contact", label: "Contact" },
-    { href: "/join", label: "Join the Community", isRoute: true },
+    { href: "/#services", label: "Services", isAnchor: true },
+    { href: "/events", label: "Events" },
+    { href: "/#about", label: "About", isAnchor: true },
+    { href: "/#contact", label: "Contact", isAnchor: true },
+    { href: "/join", label: "Join the Community" },
   ];
+
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const sectionId = href.replace("/#", "");
+    
+    if (location.pathname === "/") {
+      // Already on homepage, just scroll
+      const element = document.getElementById(sectionId);
+      element?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // Navigate to homepage first, then scroll
+      navigate("/");
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        element?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-lg">CAC</span>
             </div>
             <div className="hidden sm:block">
               <div className="font-bold text-foreground leading-tight">Community Advancement Collective</div>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              link.isRoute ? (
+              link.isAnchor ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleAnchorClick(e, link.href)}
+                  className="text-muted-foreground hover:text-foreground transition-colors font-medium cursor-pointer"
+                >
+                  {link.label}
+                </a>
+              ) : (
                 <Link
                   key={link.href}
                   to={link.href}
@@ -39,14 +69,6 @@ const Header = () => {
                 >
                   {link.label}
                 </Link>
-              ) : (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors font-medium"
-                >
-                  {link.label}
-                </a>
               )
             ))}
             <Button asChild>
@@ -69,7 +91,16 @@ const Header = () => {
           <nav className="md:hidden py-4 border-t border-border/50">
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
-                link.isRoute ? (
+                link.isAnchor ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => handleAnchorClick(e, link.href)}
+                    className="text-muted-foreground hover:text-foreground transition-colors font-medium py-2 cursor-pointer"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
                   <Link
                     key={link.href}
                     to={link.href}
@@ -78,15 +109,6 @@ const Header = () => {
                   >
                     {link.label}
                   </Link>
-                ) : (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors font-medium py-2"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.label}
-                  </a>
                 )
               ))}
               <Button asChild className="w-full mt-2">
