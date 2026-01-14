@@ -45,7 +45,7 @@ const Events = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button asChild>
-                    <Link to="/support">Get Notified</Link>
+                    <Link to="/join">Get Notified</Link>
                   </Button>
                   <Button variant="outline" asChild>
                     <a href="mailto:info@cacfla.org">
