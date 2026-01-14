@@ -18,7 +18,7 @@ const Footer = () => {
             <p className="text-background/70 mb-6 max-w-sm">Empowering our community.</p>
             <div className="flex items-center gap-2 text-accent">
               <Heart className="w-4 h-4" />
-              <span className="text-sm">A 501(c)(3) Non-Profit Organization</span>
+              <span className="text-sm">501(c)(3) Status Pending</span>
             </div>
           </div>
 
