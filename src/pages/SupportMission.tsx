@@ -12,6 +12,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { submitVolunteerApplication, submitDonation } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
+import { volunteerSchema, donationSchema, validateForm } from "@/lib/validations";
 
 type SupportType = "volunteer" | "donate" | null;
 type VolunteerService = "food-pantry" | "ged-classes" | "career-development" | null;
@@ -21,6 +22,7 @@ const SupportMission = () => {
   const [supportType, setSupportType] = useState<SupportType>(null);
   const [volunteerService, setVolunteerService] = useState<VolunteerService>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const { toast } = useToast();
   const [volunteerInfo, setVolunteerInfo] = useState({
     name: "",
@@ -41,19 +43,52 @@ const SupportMission = () => {
   const handleNext = () => setStep((prev) => prev + 1);
   const handleBack = () => setStep((prev) => prev - 1);
 
+  const updateVolunteerField = (field: string, value: string | string[]) => {
+    setVolunteerInfo((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
+  const updateDonationField = (field: string, value: string) => {
+    setDonationInfo((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
   const handleAvailabilityChange = (day: string, checked: boolean) => {
-    setVolunteerInfo((prev) => ({
-      ...prev,
-      availability: checked
-        ? [...prev.availability, day]
-        : prev.availability.filter((d) => d !== day),
-    }));
+    const newAvailability = checked
+      ? [...volunteerInfo.availability, day]
+      : volunteerInfo.availability.filter((d) => d !== day);
+    updateVolunteerField("availability", newAvailability);
   };
 
   const handleVolunteerSubmit = async () => {
+    const result = validateForm(volunteerSchema, volunteerInfo);
+    
+    if (result.success === false) {
+      setErrors(result.errors);
+      toast({
+        title: "Please fix the errors",
+        description: "Some fields need your attention.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setErrors({});
     setIsSubmitting(true);
     try {
-      const result = await submitVolunteerApplication({
+      const apiResult = await submitVolunteerApplication({
         name: volunteerInfo.name,
         email: volunteerInfo.email,
         phone: volunteerInfo.phone,
@@ -63,12 +98,12 @@ const SupportMission = () => {
         message: volunteerInfo.message,
       });
 
-      if (result.success) {
+      if (apiResult.success) {
         handleNext();
       } else {
         toast({
           title: "Submission Error",
-          description: result.error || "Failed to submit your application. Please try again.",
+          description: apiResult.error || "Failed to submit your application. Please try again.",
           variant: "destructive",
         });
       }
@@ -84,25 +119,43 @@ const SupportMission = () => {
   };
 
   const handleDonationSubmit = async () => {
+    const finalAmount = donationInfo.amount === "Custom" 
+      ? donationInfo.customAmount 
+      : donationInfo.amount;
+    
+    const result = validateForm(donationSchema, {
+      name: donationInfo.name,
+      email: donationInfo.email,
+      amount: finalAmount,
+      paymentMethod: donationInfo.paymentMethod,
+    });
+    
+    if (result.success === false) {
+      setErrors(result.errors);
+      toast({
+        title: "Please fix the errors",
+        description: "Some fields need your attention.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setErrors({});
     setIsSubmitting(true);
     try {
-      const finalAmount = donationInfo.amount === "Custom" 
-        ? donationInfo.customAmount 
-        : donationInfo.amount;
-        
-      const result = await submitDonation({
+      const apiResult = await submitDonation({
         name: donationInfo.name,
         email: donationInfo.email,
         amount: finalAmount,
         payment_method: donationInfo.paymentMethod,
       });
 
-      if (result.success) {
+      if (apiResult.success) {
         handleNext();
       } else {
         toast({
           title: "Submission Error",
-          description: result.error || "Failed to record your donation. Please try again.",
+          description: apiResult.error || "Failed to record your donation. Please try again.",
           variant: "destructive",
         });
       }
@@ -284,9 +337,13 @@ const SupportMission = () => {
             <Input
               id="name"
               value={volunteerInfo.name}
-              onChange={(e) => setVolunteerInfo((prev) => ({ ...prev, name: e.target.value }))}
+              onChange={(e) => updateVolunteerField("name", e.target.value)}
               placeholder="Your name"
+              className={errors.name ? "border-destructive" : ""}
             />
+            {errors.name && (
+              <p className="text-sm text-destructive">{errors.name}</p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email *</Label>
@@ -294,9 +351,13 @@ const SupportMission = () => {
               id="email"
               type="email"
               value={volunteerInfo.email}
-              onChange={(e) => setVolunteerInfo((prev) => ({ ...prev, email: e.target.value }))}
+              onChange={(e) => updateVolunteerField("email", e.target.value)}
               placeholder="your@email.com"
+              className={errors.email ? "border-destructive" : ""}
             />
+            {errors.email && (
+              <p className="text-sm text-destructive">{errors.email}</p>
+            )}
           </div>
         </div>
 
@@ -306,15 +367,19 @@ const SupportMission = () => {
             id="phone"
             type="tel"
             value={volunteerInfo.phone}
-            onChange={(e) => setVolunteerInfo((prev) => ({ ...prev, phone: e.target.value }))}
+            onChange={(e) => updateVolunteerField("phone", e.target.value)}
             placeholder="(555) 123-4567"
+            className={errors.phone ? "border-destructive" : ""}
           />
+          {errors.phone && (
+            <p className="text-sm text-destructive">{errors.phone}</p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label>Availability *</Label>
           <p className="text-sm text-muted-foreground mb-2">Select all days you're available</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          <div className={`grid grid-cols-2 md:grid-cols-4 gap-2 ${errors.availability ? "ring-1 ring-destructive rounded-md p-1" : ""}`}>
             {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(
               (day) => (
                 <Label
@@ -330,6 +395,9 @@ const SupportMission = () => {
               )
             )}
           </div>
+          {errors.availability && (
+            <p className="text-sm text-destructive">{errors.availability}</p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -337,7 +405,7 @@ const SupportMission = () => {
           <Textarea
             id="experience"
             value={volunteerInfo.experience}
-            onChange={(e) => setVolunteerInfo((prev) => ({ ...prev, experience: e.target.value }))}
+            onChange={(e) => updateVolunteerField("experience", e.target.value)}
             placeholder="Tell us about any relevant skills or experience..."
             rows={3}
           />
@@ -348,7 +416,7 @@ const SupportMission = () => {
           <Textarea
             id="message"
             value={volunteerInfo.message}
-            onChange={(e) => setVolunteerInfo((prev) => ({ ...prev, message: e.target.value }))}
+            onChange={(e) => updateVolunteerField("message", e.target.value)}
             placeholder="Anything else you'd like us to know?"
             rows={3}
           />
@@ -362,7 +430,7 @@ const SupportMission = () => {
         </Button>
         <Button
           onClick={handleVolunteerSubmit}
-          disabled={!volunteerInfo.name || !volunteerInfo.email || volunteerInfo.availability.length === 0 || isSubmitting}
+          disabled={isSubmitting}
         >
           {isSubmitting ? (
             <>
@@ -393,28 +461,29 @@ const SupportMission = () => {
 
       <div className="space-y-6">
         <div className="space-y-2">
-          <Label>Donation Amount</Label>
-          <div className="grid grid-cols-3 gap-3">
+          <Label>Donation Amount *</Label>
+          <div className={`grid grid-cols-3 gap-3 ${errors.amount ? "ring-1 ring-destructive rounded-md p-1" : ""}`}>
             {["$25", "$50", "$100", "$250", "$500", "Custom"].map((amount) => (
               <Button
                 key={amount}
                 variant={donationInfo.amount === amount ? "default" : "outline"}
-                onClick={() => setDonationInfo((prev) => ({ ...prev, amount, customAmount: "" }))}
+                onClick={() => updateDonationField("amount", amount)}
                 className="h-12"
               >
                 {amount}
               </Button>
             ))}
           </div>
+          {errors.amount && (
+            <p className="text-sm text-destructive">{errors.amount}</p>
+          )}
           {donationInfo.amount === "Custom" && (
             <div className="pt-2">
               <Input
                 type="number"
                 placeholder="Enter amount"
                 value={donationInfo.customAmount}
-                onChange={(e) =>
-                  setDonationInfo((prev) => ({ ...prev, customAmount: e.target.value }))
-                }
+                onChange={(e) => updateDonationField("customAmount", e.target.value)}
                 className="text-lg"
               />
             </div>
@@ -422,13 +491,11 @@ const SupportMission = () => {
         </div>
 
         <div className="space-y-2">
-          <Label>Payment Method</Label>
+          <Label>Payment Method *</Label>
           <RadioGroup
             value={donationInfo.paymentMethod}
-            onValueChange={(value) =>
-              setDonationInfo((prev) => ({ ...prev, paymentMethod: value }))
-            }
-            className="grid gap-3"
+            onValueChange={(value) => updateDonationField("paymentMethod", value)}
+            className={`grid gap-3 ${errors.paymentMethod ? "ring-1 ring-destructive rounded-md p-1" : ""}`}
           >
             {[
               { value: "card", label: "Credit/Debit Card" },
@@ -449,6 +516,9 @@ const SupportMission = () => {
               </Label>
             ))}
           </RadioGroup>
+          {errors.paymentMethod && (
+            <p className="text-sm text-destructive">{errors.paymentMethod}</p>
+          )}
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">
@@ -457,7 +527,7 @@ const SupportMission = () => {
             <Input
               id="donor-name"
               value={donationInfo.name}
-              onChange={(e) => setDonationInfo((prev) => ({ ...prev, name: e.target.value }))}
+              onChange={(e) => updateDonationField("name", e.target.value)}
               placeholder="Your name"
             />
           </div>
@@ -467,9 +537,13 @@ const SupportMission = () => {
               id="donor-email"
               type="email"
               value={donationInfo.email}
-              onChange={(e) => setDonationInfo((prev) => ({ ...prev, email: e.target.value }))}
+              onChange={(e) => updateDonationField("email", e.target.value)}
               placeholder="For receipt"
+              className={errors.email ? "border-destructive" : ""}
             />
+            {errors.email && (
+              <p className="text-sm text-destructive">{errors.email}</p>
+            )}
           </div>
         </div>
       </div>
@@ -481,11 +555,7 @@ const SupportMission = () => {
         </Button>
         <Button
           onClick={handleDonationSubmit}
-          disabled={
-            !donationInfo.paymentMethod ||
-            (!donationInfo.amount || (donationInfo.amount === "Custom" && !donationInfo.customAmount)) ||
-            isSubmitting
-          }
+          disabled={isSubmitting}
         >
           {isSubmitting ? (
             <>
