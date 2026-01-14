@@ -21,11 +21,8 @@ const Hero = () => {
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-fade-in-up animation-delay-200">
-            Community Advancement Collective provides life-building services like{" "}
-            <Link to="/get-help" className="text-primary hover:underline">GED education</Link>,{" "}
-            <Link to="/get-help" className="text-primary hover:underline">career development</Link>,
-            advocacy, and{" "}
-            <Link to="/get-help" className="text-primary hover:underline">veteran support</Link>.
+            Community Advancement Collective provides life-building services like GED education, career development,
+            advocacy, and veteran support.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
