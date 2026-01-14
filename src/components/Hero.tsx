@@ -21,8 +21,11 @@ const Hero = () => {
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-fade-in-up animation-delay-200">
-            Community Advancement Collective provides life-building services like GED education, career development,
-            advocacy, and veteran support.
+            Community Advancement Collective provides life-building services like{" "}
+            <Link to="/get-help" className="text-primary hover:underline">GED education</Link>,{" "}
+            <Link to="/get-help" className="text-primary hover:underline">career development</Link>,
+            advocacy, and{" "}
+            <Link to="/get-help" className="text-primary hover:underline">veteran support</Link>.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
@@ -32,9 +35,11 @@ const Hero = () => {
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
-            <Button variant="outline" size="lg">
-              Support Our Mission
-            </Button>
+            <Link to="/support">
+              <Button variant="outline" size="lg">
+                Support Our Mission
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,4 +1,6 @@
-import { Heart, Smile, Handshake, Shield } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Heart, Smile, Handshake, Shield, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const stats = [
   { icon: Heart, value: "100% Free Services", label: "No Cost Ever" },
@@ -19,15 +21,18 @@ const About = () => {
             </h2>
             <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
               Community Advancement Collective was founded on the belief that everyone deserves a brighter future and
-              access to essential services, regardless of their circumstances. We are a dedicated group of volunteers
+              access to essential services, regardless of their circumstances. We are a dedicated group of{" "}
+              <Link to="/support" className="text-primary hover:underline">volunteers</Link>{" "}
               and professionals committed to uplifting our neighbors and building strong communities person by person.
             </p>
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-              Our mission is simple: remove barriers and create pathways to success. Whether it's a GED, a job,
+              Our mission is simple: remove barriers and create pathways to success. Whether it's a{" "}
+              <Link to="/get-help" className="text-primary hover:underline">GED</Link>, a{" "}
+              <Link to="/get-help" className="text-primary hover:underline">job</Link>,
               advocacy, or just some food, we're here to provide whatever unlocks the door to the next level in life.
             </p>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-6 mb-8">
               {stats.map((stat) => (
                 <div key={stat.label} className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
@@ -40,6 +45,21 @@ const About = () => {
                 </div>
               ))}
             </div>
+
+            {/* CTA Links */}
+            <div className="flex flex-wrap gap-4">
+              <Link to="/get-help">
+                <Button>
+                  Get Help Now
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
+              <Link to="/join">
+                <Button variant="outline">
+                  Join Our Community
+                </Button>
+              </Link>
+            </div>
           </div>
 
           <div className="relative">
@@ -49,9 +69,12 @@ const About = () => {
                   <Heart className="w-16 h-16 text-primary" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-2">Our Promise</h3>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground mb-4">
                   Every person we serve is treated with dignity, respect, and compassion.
                 </p>
+                <Link to="/events" className="text-primary hover:underline text-sm font-medium">
+                  See upcoming events →
+                </Link>
               </div>
             </div>
             <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-accent/30 rounded-2xl blur-xl" />
