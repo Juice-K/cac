@@ -1,4 +1,4 @@
-import { Heart, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Heart, MapPin, Phone, Mail, Clock, Instagram, Facebook, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -47,6 +47,40 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
+            
+            {/* Social Media Links */}
+            <div className="mt-6">
+              <h5 className="font-medium text-background mb-3">Follow Us</h5>
+              <div className="flex items-center gap-4">
+                <a 
+                  href="https://instagram.com/cacfla" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-background/70 hover:text-primary transition-colors"
+                  aria-label="Follow us on Instagram"
+                >
+                  <Instagram className="w-6 h-6" />
+                </a>
+                <a 
+                  href="https://facebook.com/cacfla" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-background/70 hover:text-primary transition-colors"
+                  aria-label="Follow us on Facebook"
+                >
+                  <Facebook className="w-6 h-6" />
+                </a>
+                <a 
+                  href="https://linkedin.com/company/cacfla" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-background/70 hover:text-primary transition-colors"
+                  aria-label="Connect with us on LinkedIn"
+                >
+                  <Linkedin className="w-6 h-6" />
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Hours */}
